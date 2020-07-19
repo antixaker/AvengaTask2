@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AvengaTestTask2;
 
 namespace Refactoring
 {
@@ -15,14 +16,14 @@ namespace Refactoring
                         ProductName = "Pulled Pork",
                         Price = 6.99m,
                         Weight = 0.5m,
-                        PricingMethod = "PerPound",
+                        PricingMethod = PricingMethods.PerPound,
                     },
                     new Product
                     {
                         ProductName = "Coke",
                         Price = 3m,
                         Quantity = 2,
-                        PricingMethod = "PerItem"
+                        PricingMethod = PricingMethods.PerItem
                     }
                 }
             );
@@ -35,7 +36,7 @@ namespace Refactoring
                 var productPrice = 0m;
                 orderSummary += orderProduct.ProductName;
 
-                if (orderProduct.PricingMethod == "PerPound")
+                if (orderProduct.PricingMethod == PricingMethods.PerPound)
                 {
                     productPrice = (orderProduct.Weight.Value * orderProduct.Price);
                     price += productPrice;
@@ -64,7 +65,7 @@ namespace Refactoring
         public decimal Price;
         public decimal? Weight;
         public int? Quantity;
-        public string PricingMethod;
+        public PricingMethods PricingMethod;
     }
 }
 
