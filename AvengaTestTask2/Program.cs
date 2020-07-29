@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using AvengaTestTask2;
+using AvengaTestTask2.Models;
+using AvengaTestTask2.Services.BillService;
+using AvengaTestTask2.Services.OrderService;
 
 namespace Refactoring
 {
@@ -8,64 +10,31 @@ namespace Refactoring
     {
         static void Main(string[] args)
         {
-            var order = new Tuple<string, List<Product>>("John Doe",
-                new List<Product>
-                {
-                    new Product
-                    {
-                        ProductName = "Pulled Pork",
-                        Price = 6.99m,
-                        Weight = 0.5m,
-                        PricingMethod = PricingMethods.PerPound,
-                    },
-                    new Product
-                    {
-                        ProductName = "Coke",
-                        Price = 3m,
-                        Quantity = 2,
-                        PricingMethod = PricingMethods.PerItem
-                    }
-                }
-            );
+            //in app with GUI here could be resolving services from IoC container
+            IOrderService _orderService = new OrderService();
+            IBillService _billService = new BillService();
 
-            var price = 0m;
-            var orderSummary = "ORDER SUMMARY FOR " + order.Item1 + ": \r\n";
-
-            foreach (var orderProduct in order.Item2)
+            var pulledPork = new Product
             {
-                var productPrice = 0m;
-                orderSummary += orderProduct.ProductName;
+                ProductName = "Pulled Pork",
+                Price = 6.99m,
+                Weight = 0.5m,
+                PricingMethod = PricingMethods.PerPound,
+            };
+            var coke = new Product
+            {
+                ProductName = "Coke",
+                Price = 3m,
+                Quantity = 2,
+                PricingMethod = PricingMethods.PerItem
+            };
 
-                if (orderProduct.PricingMethod == PricingMethods.PerPound)
-                {
-                    productPrice = (orderProduct.Weight.Value * orderProduct.Price);
-                    price += productPrice;
-                    orderSummary += (" $" + productPrice + " (" + orderProduct.Weight + " pounds at $" + orderProduct.Price + " per pound)");
-                }
-                else // Per item
-                {
-                    productPrice = (orderProduct.Quantity.Value * orderProduct.Price);
-                    price += productPrice;
-                    orderSummary += (" $" + productPrice + " (" + orderProduct.Quantity + " items at $" + orderProduct.Price + " each)");
-                }
+            var order = _orderService.CreateOrder("John Doe", pulledPork, coke);
 
-                orderSummary += "\r\n";
-            }
-
-            Console.WriteLine(orderSummary);
-            Console.WriteLine("Total Price: $" + price);
+            _billService.PrintOrderBill(order);
 
             Console.ReadKey();
         }
-    }
-
-    public class Product
-    {
-        public string ProductName;
-        public decimal Price;
-        public decimal? Weight;
-        public int? Quantity;
-        public PricingMethods PricingMethod;
     }
 }
 

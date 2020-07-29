@@ -32,7 +32,24 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PricingMethods.cs" />
+    <Compile Include="Services\ProductService\IProductService.cs" />
+    <Compile Include="Services\ProductService\ProductService.cs" />
+    <Compile Include="Utils\PricingMethods.cs" />
+    <Compile Include="Utils\ApplicationException.cs" />
+    <Compile Include="Services\OrderService\IOrderService.cs" />
+    <Compile Include="Services\OrderService\OrderService.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Services\BillService\IBillService.cs" />
+    <Compile Include="Services\BillService\BillService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\ProductService\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Services\OrderService\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\BillService\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
